@@ -8,11 +8,18 @@ A simple plugin to highlight an UUIDs under the cursor with different colors.
 
  * `<leader>` + \` to clear all matches.
 
+## Demo
 
- ## ToDo
+![](https://media.giphy.com/media/bqXMay1XnE4WqCFdt8/giphy.gif)
+
+## ToDo
 
   * let user configure key mappings.
   * use a better regex instead of `expand("<cWORD>")` to match UUID under the cursor.
+
+
+
+
 
 
 

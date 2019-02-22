@@ -11,12 +11,11 @@ endif
 
 let g:loaded_highlightUUID = 1
 
-function! DoHighlight(hlnum, search_term)
+function! DoHighlight(hlnum)
   if a:hlnum > 0
     call UndoHighlight(a:hlnum)
-    " let l:search_term = matchstr(getline('.'), '\v\x{8}(-\x{4}){3}-\x{12}')
-    " let id = matchadd('uuid'.a:hlnum, l:search_term, -1)
-    let id = matchadd('uuid'.a:hlnum, a:search_term, -1)
+    let l:search_term = matchstr(expand("<cWORD>"), '\v<\x{8}(-\x{4}){3}-\x{12}>')
+    let id = matchadd('uuid'.a:hlnum, l:search_term, -1)
   endif
 endfunction
 
@@ -45,14 +44,9 @@ let s:fgcolors = [ 'no', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', '
 function! UUIDHighlightsInit()
   for n in range(1,9)
     call s:AddHighlight(n, s:fgcolors[n])
-    exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ', expand("<cWORD>"))<CR>'
-    " The idea here is to match an UUID under the cursor for now using <cWORD> would do the job.
-    " Using getline + regex in DoHighLight() will only find the first UUID
-    " I need to came up with a regex around \%#
+    exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ')<CR>'
   endfor
   nnoremap <silent> <leader>` :<C-u>call clearmatches()<CR>
 endfunction
 
 call UUIDHighlightsInit()
-
-

@@ -2,8 +2,8 @@
 " Author: sQ`
 " Version: 0.1
 " Repo: https://github.com/prsquee/vim-highlight-uuid
-" Inspired by this: http://vim.wikia.com/wiki/Talk:Highlight_multiple_words
 
+" Heavily inspired by this tip: http://vim.wikia.com/wiki/Talk:Highlight_multiple_words
 
 if exists("g:loaded_highlightUUID") || &cp || v:version < 720
   finish
@@ -33,20 +33,26 @@ function! GetId(hlnum)
   return 0
 endfunction
 
-function! AddHighlight(hlnum, fgcolor)
+function! s:AddHighlight(hlnum, fgcolor)
   if len(a:fgcolor) > 0
     exec "highlight uuid".a:hlnum." ctermfg=".a:fgcolor." ctermbg=DarkGray guifg=".a:fgcolor." guibg=DarkGray"
   endif
 endfunction
 
+let s:fgcolors = [ 'no', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
 " range through 1-9 and setup highlights called uuidN with the color from fgcolor list
 " then create leader + N mapping to call DoHightlight(N)
-let fgcolors = [ 'no', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
-for n in range(1,9)
-  call AddHighlight(n, fgcolors[n])
-  exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ', expand("<cWORD>"))<CR>'
-  " The idea here is to match an UUID under the cursor for now using <cWORD> would do the job.
-  " Using getline + regex in DoHighLight() will only find the first UUID
-  " I need to came up with a regex around \%#
-endfor
-nnoremap <silent> <leader>` :<C-u>call clearmatches()<CR>
+function! UUIDHighlightsInit()
+  for n in range(1,9)
+    call s:AddHighlight(n, s:fgcolors[n])
+    exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ', expand("<cWORD>"))<CR>'
+    " The idea here is to match an UUID under the cursor for now using <cWORD> would do the job.
+    " Using getline + regex in DoHighLight() will only find the first UUID
+    " I need to came up with a regex around \%#
+  endfor
+  nnoremap <silent> <leader>` :<C-u>call clearmatches()<CR>
+endfunction
+
+call UUIDHighlightsInit()
+
+

@@ -15,7 +15,6 @@ A simple plugin to highlight an UUIDs under the cursor with different colors.
 ## ToDo
 
   * let user configure key mappings.
-  * use a better regex instead of `expand("<cWORD>")` to match UUID under the cursor.
 
 
 

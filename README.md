@@ -2,6 +2,12 @@
 
 A simple plugin to highlight an UUIDs under the cursor with different colors.
 
+## Install with [pathogen.vim](https://github.com/tpope/vim-pathogen#readme)
+
+    $ cd ~/.vim/bundle
+    $ git clone https://github.com/prsquee/vim-highlight-uuid
+
+
 ## Usage 
 
  * `<leader>` + `1-9` to highlight the UUID under the cursor. It will hightlight the same UUID on the rest of the file. Pressing the same number will override the previous match.

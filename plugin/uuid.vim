@@ -33,20 +33,36 @@ function! GetId(hlnum)
 endfunction
 
 function! s:AddHighlight(hlnum, fgcolor)
-  if len(a:fgcolor) > 0
-    exec "highlight uuid".a:hlnum." ctermfg=".a:fgcolor." ctermbg=DarkGray guifg=".a:fgcolor." guibg=DarkGray"
+  if !exists('g:uuid_guibg')
+    let g:uuid_guibg = 'DarkGray'
+  endif
+  if !exists('g:uuid_ctermbg')
+    let g:uuid_ctermbg = 'Gray'
+  endif
+  if a:hlnum > 0 && a:hlnum < 10
+    exec "highlight uuid".a:hlnum." ctermfg=".a:fgcolor." ctermbg=".g:uuid_ctermbg." guifg=".a:fgcolor." guibg=".g:uuid_guibg
   endif
 endfunction
 
-let s:fgcolors = [ 'no', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
 " range through 1-9 and setup highlights called uuidN with the color from fgcolor list
 " then create leader + N mapping to call DoHightlight(N)
 function! UUIDHighlightsInit()
-  for n in range(1,9)
-    call s:AddHighlight(n, s:fgcolors[n])
+  if !exists('g:uuid_fgcolors')
+    let g:uuid_fgcolors = [ 'starts@1', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
+  endif
+  for n in range(1, len(g:uuid_fgcolors))
+    if n > 9
+      break
+    endif
+    call s:AddHighlight(n, g:uuid_fgcolors[n])
     exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ')<CR>'
   endfor
-  nnoremap <silent> <leader>` :<C-u>call clearmatches()<CR>
+  nnoremap <silent> <leader>` :call clearmatches()<CR>
 endfunction
+
+augroup KeepUUIDHightlighsAfterColorSchemeChange
+  autocmd!
+  autocmd ColorScheme * call UUIDHighlightsInit()
+augroup END
 
 call UUIDHighlightsInit()

@@ -48,14 +48,15 @@ endfunction
 " then create leader + N mapping to call DoHightlight(N)
 function! UUIDHighlightsInit()
   if !exists('g:uuid_fgcolors')
-    let g:uuid_fgcolors = [ 'starts@1', 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
+    let g:uuid_fgcolors = [ 'Blue', 'DarkRed', 'LightGreen', 'LightGray', 'Cyan', 'Yellow', 'LightMagenta', 'White', 'Brown' ]
   endif
-  for n in range(1, len(g:uuid_fgcolors))
-    if n > 9
+  for n in range(0, len(g:uuid_fgcolors))
+    if n > 8
       break
     endif
-    call s:AddHighlight(n, g:uuid_fgcolors[n])
-    exec 'nnoremap <silent> <leader>' . n . ' :call DoHighlight('. n . ')<CR>'
+    let l:n1 = n + 1
+    call s:AddHighlight(l:n1, g:uuid_fgcolors[n])
+    exec 'nnoremap <silent> <leader>' . l:n1 . ' :call DoHighlight('. l:n1 . ')<CR>'
   endfor
   nnoremap <silent> <leader>` :call clearmatches()<CR>
 endfunction

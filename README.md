@@ -29,6 +29,18 @@ Up to 9 colors:
 
 Each color gets mapped to `<leader>` + number.
 
+## Custom regex
+
+You can define [any regex](http://vimregex.com) to highligh something else than UUID:
+
+    let g:uuid_regex = '<new regex>'
+
+I guess this plugin should really be called `vim-multiple-highlights`.
+
+## How does it work?
+
+Very simple. It uses [`expand("<cWORD>")`](http://vimdoc.sourceforge.net/htmldoc/cmdline.html#:%3CcWORD%3E) to lookup the "word" under the cursor. Then [`matchstr()`](http://vimdoc.sourceforge.net/htmldoc/eval.html#match()) is applied against this "word" with a regex to extract the uuid. This uuid is then added with [`matchadd()`](http://vimdoc.sourceforge.net/htmldoc/eval.html#matchadd()) to a list of highlights with the colors already defined during start up.  
+
 ## Demo
 
 ![](https://media.giphy.com/media/bqXMay1XnE4WqCFdt8/giphy.gif)

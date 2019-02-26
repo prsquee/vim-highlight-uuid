@@ -14,7 +14,10 @@ let g:loaded_highlightUUID = 1
 function! DoHighlight(hlnum)
   if a:hlnum > 0
     call UndoHighlight(a:hlnum)
-    let l:search_term = matchstr(expand("<cWORD>"), '\v<\x{8}(-\x{4}){3}-\x{12}>')
+    if !exists('g:uuid_regex')
+      let g:uuid_regex = '\v<\x{8}(-\x{4}){3}-\x{12}>'
+    endif
+    let l:search_term = matchstr(expand("<cWORD>"), g:uuid_regex)
     let id = matchadd('uuid'.a:hlnum, l:search_term, -1)
   endif
 endfunction
